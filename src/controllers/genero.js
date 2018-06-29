@@ -1,8 +1,8 @@
 'use strict';
 const mySql = require('../connection.js');
 
-exports.findAll = (req, res, next) => {	
-	const query = "SELECT * FROM tb_genero";
+exports.findAll = (req, res, next) => {
+	const query = "SELECT * FROM tb_genero WHERE id_status = 1";
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
@@ -53,7 +53,7 @@ exports.post = (req, res, next) => {
 };
 
 exports.put = (req, res, next) => {
-	const query = "UPDATE tb_genero SET nome = '"+req.body.nome+"' WHERE id = "+req.body.id;
+	const query = "UPDATE tb_genero SET nome = '"+req.body.nome+"', id_status = "+req.body.idStatus+" WHERE id = "+req.body.id;
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);

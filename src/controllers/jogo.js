@@ -2,7 +2,7 @@
 const mySql = require('../connection.js');
 
 exports.findAll = (req, res, next) => {
-	const query = "SELECT * FROM tb_jogo";
+	const query = "SELECT * FROM tb_jogo WHERE id_status = 1";
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
@@ -34,7 +34,7 @@ exports.findOneById = (req, res, next) => {
 };
 
 exports.post = (req, res, next) => {
-	const query = "INSERT INTO tb_jogo (nome, id_genero) VALUES ('"+req.body.nome+"', "+req.body.idGenero+")";
+	const query = "INSERT INTO tb_jogo (nome, id_genero, descricao, path_url) VALUES ('"+req.body.nome+"', "+req.body.idGenero+", '"+req.body.descricao+"', '"+req.body.pathUrl+"')";
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
@@ -53,7 +53,7 @@ exports.post = (req, res, next) => {
 };
 
 exports.put = (req, res, next) => {
-	const query = "UPDATE tb_jogo SET nome = '"+req.body.nome+"', id_genero = "+req.body.idGenero+", votos = "+req.body.votos+" WHERE id = "+req.body.id;
+	const query = "UPDATE tb_jogo SET nome = '"+req.body.nome+"', id_genero = "+req.body.idGenero+", votos = "+req.body.votos+", descricao = '"+req.body.descricao+"', path_url = '"+req.body.pathUrl+"', id_status = "+req.body.idStatus+" WHERE id = "+req.body.id;
 	console.warn(query);
 	mySql.query(query, (error, results, fields) => {
 		if (error) {

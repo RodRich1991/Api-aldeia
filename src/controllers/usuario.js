@@ -1,8 +1,8 @@
 'use strict';
 const mySql = require('../connection.js');
 
-exports.findAll = (req, res, next) => {	
-	const query = "SELECT * FROM tb_usuario";
+exports.findAll = (req, res, next) => {
+	const query = "SELECT * FROM tb_usuario WHERE id_status = 1";
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
@@ -17,8 +17,26 @@ exports.findAll = (req, res, next) => {
 	})
 };
 
-exports.findOneById = (req, res, next) => {
-	const query = "SELECT * FROM tb_usuario WHERE id="+req.params.id;
+// exports.findOneById = (req, res, next) => {
+// 	const query = "SELECT * FROM tb_usuario WHERE id="+req.params.id;
+// 	console.warn(query);
+// 	mySql.query(query, (error, results, fields) => {
+// 		if (error) {
+// 			console.error(error.sqlMessage);
+// 			res.status(400).send({ message: { type: 'error', description: error.sqlMessage}});
+// 		} else {
+// 			if (results.length > 0) {
+// 				res.status(200).send({ message: { type: 'success', description: 'Usuario encontrado.'}, data: results });
+// 			} else {
+// 				res.status(404).send({ message: { type: 'error', description: 'Nenhum usuario encontrado.'}});
+// 			}
+// 		}
+// 	})
+// };
+
+exports.findUser = (req, res, next) => {
+	const query = "SELECT * FROM tb_usuario WHERE usuario='"+req.params.user+"' AND id_status = 1";
+	console.warn(query);
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
@@ -34,7 +52,7 @@ exports.findOneById = (req, res, next) => {
 };
 
 exports.post = (req, res, next) => {
-	const query = "INSERT INTO tb_usuario(nome, senha, email) VALUES ('"+req.body.nome+"', '"+req.body.senha+"', '"+req.body.email+"')";
+	const query = "INSERT INTO tb_usuario(nome, usuario, senha, email) VALUES ('"+req.body.nome+"', '"+req.body.usuario+"', '"+req.body.senha+"', '"+req.body.email+"')";
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
@@ -53,7 +71,7 @@ exports.post = (req, res, next) => {
 };
 
 exports.put = (req, res, next) => {
-	const query = "UPDATE tb_usuario SET nome = '"+req.body.nome+"', senha = '"+req.body.senha+"', email = '"+req.body.email+"' WHERE id = "+req.body.id;
+	const query = "UPDATE tb_usuario SET nome = '"+req.body.nome+"', usuario = '"+req.body.usuario+"', senha = '"+req.body.senha+"', email = '"+req.body.email+"', id_status = "+req.body.idStatus+" WHERE id = "+req.body.id;
 	mySql.query(query, (error, results, fields) => {
 		if (error) {
 			console.error(error.sqlMessage);
